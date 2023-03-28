@@ -8,6 +8,11 @@ const configuration = new Configuration({
     organization: process.env.OPENAI_ORGANIZATION_ID,
     apiKey: process.env.OPENAI_KEY,
 });
+ 
+export const config = {
+  runtime: 'edge',
+};
+ 
 interface Result{
   _id:string;
   singer : string;
