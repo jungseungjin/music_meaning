@@ -21,7 +21,7 @@ const Input = ({page=""}:{page:string}) => {
     const onSubmitSearch = async(event:React.FormEvent<HTMLFormElement>)=>{
         event.preventDefault();
         loadingStart();
-        const result = await axios.get(`/api/search`,{
+        const result = await axios.get("/api/search",{
             params:{
                 search:search.search
             }

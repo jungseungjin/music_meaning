@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import palette from "../../styles/palette";``
+import palette from "../../styles/palette";
 import LogoSVG from "../../image/svg/MM.svg"
 
 const Container = styled.div`

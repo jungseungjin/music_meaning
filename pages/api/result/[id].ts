@@ -24,7 +24,7 @@ const request_meaning = async(result:any,lyrics:Array<string>) => {
     //가사의미 묻기
     const meaning = await axios(
       {
-        url:`https://api.openai.com/v1/chat/completions`,
+        url:"https://api.openai.com/v1/chat/completions",
         method:"POST",
         headers: {
           "Content-Type": "application/json",
