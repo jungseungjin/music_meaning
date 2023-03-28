@@ -1,5 +1,5 @@
 import React,{useEffect} from "react"
-import Head from 'next/head'
+import Head from "next/head"
 import { NextPage,GetServerSidePropsContext } from "next";
 import styled from "styled-components"
 import axios from "axios"

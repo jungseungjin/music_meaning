@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from "next"
 import Song from "../../lib/model/song.model";
 import dbConnect from "../../lib/db/dbConnect"
 

@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from "next"
 import axios from "axios"
 import Song from "../../../lib/model/song.model";
 import dbConnect from "../../../lib/db/dbConnect"
@@ -32,7 +32,7 @@ const request_meaning = async(result:any,lyrics:Array<string>) => {
         },
         data:{
           "model": "gpt-3.5-turbo",
-          "messages": [{"role": "user", "content": `I'll give you the lyrics to singer called ${result.singer} and song titled ${result.song}. Tell me the meaning of these lyrics in Korean so that an ordinary person in their 30s living in Korea can easily understand. And reply in Korean.  ${lyrics.join(' ')}`}]
+          "messages": [{"role": "user", "content": `I"ll give you the lyrics to singer called ${result.singer} and song titled ${result.song}. Tell me the meaning of these lyrics in Korean so that an ordinary person in their 30s living in Korea can easily understand. And reply in Korean.  ${lyrics.join(" ")}`}]
         }
       })
     //응답값 저장
@@ -76,8 +76,8 @@ export default async function handler(
             const search = await axios.get(`${process.env.SHAZAM_URI}/songs/get-details`,{ 
                 params: {key: req.query.id},
                 headers: {
-                    'X-RapidAPI-Key': process.env.X_RapidAPI_Key,
-                    'X-RapidAPI-Host': process.env.X_RapidAPI_Host
+                    "X-RapidAPI-Key": process.env.X_RapidAPI_Key,
+                    "X-RapidAPI-Host": process.env.X_RapidAPI_Host
                 }
             })
             if(search.data){

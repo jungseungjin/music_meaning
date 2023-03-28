@@ -39,8 +39,8 @@ export const loadingState = atom<boolean>({
     default:false
 })
 //사용법
-// import { useRecoilState } from 'recoil';
-// import { nameState } from '../components/states';
+// import { useRecoilState } from "recoil";
+// import { nameState } from "../components/states";
 
 
 // const [name, setNameState] = useRecoilState(nameState);

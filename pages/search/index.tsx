@@ -1,5 +1,5 @@
 import React from "react"
-import Head from 'next/head'
+import Head from "next/head"
 import { NextPage } from "next";
 import styled from "styled-components"
 

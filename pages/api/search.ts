@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from "next"
 import axios from "axios"
 import Song from "../../lib/model/song.model";
 // import clientPromise from "../../lib/db/mongodb";
@@ -24,10 +24,10 @@ export default async function handler(
       await dbConnect()
       //검색어로 api검색을 하고
       const result = await axios.get(`${process.env.SHAZAM_URI}/search`,{
-        params: {term: req.query.search, offset: '0', limit: '5'},
+        params: {term: req.query.search, offset: "0", limit: "5"},
         headers: {
-          'X-RapidAPI-Key': process.env.X_RapidAPI_Key,
-          'X-RapidAPI-Host': process.env.X_RapidAPI_Host
+          "X-RapidAPI-Key": process.env.X_RapidAPI_Key,
+          "X-RapidAPI-Host": process.env.X_RapidAPI_Host
         }
       })
       //나온 결과들을 db에 저장

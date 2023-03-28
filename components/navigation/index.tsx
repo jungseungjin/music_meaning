@@ -6,7 +6,7 @@ import fontSize from "@/styles/fontsize"
 import palette from "@/styles/palette";
 import fontweight from "@/styles/fontweight";
 import Arrow_left from "../../image/svg/arrow_left.svg"
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 const Container = styled.div`
     display:flex;
     width:100%;

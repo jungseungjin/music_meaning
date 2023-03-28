@@ -6,8 +6,8 @@ import fontSize from "@/styles/fontsize"
 import palette from "@/styles/palette";
 import axios from "axios"
 
-import { useRecoilState } from 'recoil';
-import { searchState } from '../../recoil/index';
+import { useRecoilState } from "recoil";
+import { searchState } from "../../recoil/index";
 import Button_x from "../../image/svg/button_x.svg"
 
 import useLoading from "@/hooks/useLoading";
@@ -55,7 +55,7 @@ const Input = ({page=""}:{page:string}) => {
             <>
                 <Input2_box onSubmit={onSubmitSearch}>
                     <Input2_container>
-                        <Input2 autoComplete="off" name='search' type='search' placeholder="검색하기" value={search?.search} onChange={changeSearch}></Input2>
+                        <Input2 autoComplete="off" name="search" type="search" placeholder="검색하기" value={search?.search} onChange={changeSearch}></Input2>
                         {search?.search?.length > 0 && (
                             <Button_x_container onClick={()=>{setSearchState({...search,search:""})}}>
                                 <Button_x></Button_x>
