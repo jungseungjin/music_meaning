@@ -10,7 +10,7 @@ const configuration = new Configuration({
 });
  
 export const config = {
-  runtime: 'edge',
+  runtime: "edge",
 };
  
 interface Result{
