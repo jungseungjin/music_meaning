@@ -7,10 +7,10 @@ import Search from "../components/input/index"
 import Item from "../components/item/index"
 import Singer from "../components/information/singer"
 import Information from "../components/information/text"
-import { useRecoilState } from "recoil";
-import {itemState } from "../recoil/index" 
 import useLoading from "@/hooks/useLoading";
 import {Oval} from "react-loader-spinner"
+import { useRecoilState } from "recoil";
+import {itemState } from "../recoil/index" 
 
 const Container = styled.div`
     display:flex;
@@ -18,6 +18,7 @@ const Container = styled.div`
 `
 const Home:NextPage = ()=>{
     const { loadingStart, loadingEnd, LoadingPortal } = useLoading();
+    
     const [items, setItems] = useRecoilState(itemState)
     return(
         <>

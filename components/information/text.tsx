@@ -43,9 +43,9 @@ const Text = ({title="",information=[]} : {title:string, information:any}) =>{
             <Title>{title}</Title>
             {title === "가사" && (<>
                 <Information>
-                    {information.map((item:any)=>{
+                    {information.map((item:any,index:number)=>{
                         return(
-                            <p>{item}</p>
+                            <p key={`${index}`}>{item}</p>
                         )
                     })}
                 </Information>

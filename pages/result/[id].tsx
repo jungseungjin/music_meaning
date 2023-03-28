@@ -68,39 +68,56 @@ interface Props {
   )
 }
 export default Index
-
-//빌드할때 만들것
-export async function getStaticPaths(){
-    const API_URL:string=process.env.LOCALHOST || ""
-    const res = await axios.get(`${API_URL}/api/paths`)
-    const data = res.data;
-    return {
-        paths : data.map((item:any)=>(
-            {params:{id:item.key.toString()}}
-        )),
-        // paths:[
-        //     {params:{id:"740"}},
-        //     {params:{id:"729"}},
-        //     {params:{id:"730"}},
-        // ],
-        fallback:true
-    }
+export async function getServerSideProps(context:GetServerSidePropsContext){ 
+  const id = context.params?.id;
+  if(!id){
+      return { notFound: true };
+  }
+  const API_URL:string=process.env.LOCALHOST || ""
+  const res = await axios.get(`${API_URL}/api/result/${id}`);
+  const data = res.data.result;
+  const message = res.data.message || null
+  return {
+      props:{
+          item:data,
+          message
+      }
+  }
 }
 
-//
-export async function getStaticProps(context:GetServerSidePropsContext){ 
-    const id = context.params?.id;
-    if(!id){
-        return { notFound: true };
-    }
-    const API_URL:string=process.env.LOCALHOST || ""
-    const res = await axios.get(`${API_URL}/api/result/${id}`);
-    const data = res.data.result;
-    const message = res.data.message || null
-    return {
-        props:{
-            item:data,
-            message
-        }
-    }
-}
+
+// //빌드할때 만들것
+// export async function getStaticPaths(){
+//     const API_URL:string=process.env.LOCALHOST || ""
+//     const res = await axios.get(`${API_URL}/api/paths`)
+//     const data = res.data;
+//     return {
+//         paths : data.map((item:any)=>(
+//             {params:{id:item.key.toString()}}
+//         )),
+//         // paths:[
+//         //     {params:{id:"740"}},
+//         //     {params:{id:"729"}},
+//         //     {params:{id:"730"}},
+//         // ],
+//         fallback:true
+//     }
+// }
+
+// //
+// export async function getStaticProps(context:GetServerSidePropsContext){ 
+//     const id = context.params?.id;
+//     if(!id){
+//         return { notFound: true };
+//     }
+//     const API_URL:string=process.env.LOCALHOST || ""
+//     const res = await axios.get(`${API_URL}/api/result/${id}`);
+//     const data = res.data.result;
+//     const message = res.data.message || null
+//     return {
+//         props:{
+//             item:data,
+//             message
+//         }
+//     }
+// }

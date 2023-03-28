@@ -1,4 +1,4 @@
-import React from "react"
+import React,{useState,useEffect} from "react"
 import {NextPage} from "next"
 import { useRouter } from "next/router"
 import styled from "styled-components"
@@ -16,7 +16,7 @@ interface Item {
     meaning:string;
 }
 
-const Item = ({title = "",items = []}:{title:string,items:any}) => {
+const Item = ({title = "",items=[]}:{title:string,items:Array<Item>}) => {
     const router = useRouter()
     const { loadingStart, loadingEnd, LoadingPortal } = useLoading();
     const onClick = (item:any) => {
@@ -28,9 +28,9 @@ const Item = ({title = "",items = []}:{title:string,items:any}) => {
             <Container>
                 <Title>{title}</Title>
                 <Item_container>
-                    {items.map(({item,index} : {item:any, index:number})=>{
+                    {items.map((item:Item,index:number )=>{
                         return(
-                            <Item_element key={`${item?._id}_${index}`}>
+                            <Item_element key={`${item?._id}_${index}_${title}`}>
                                 <div onClick={()=>{onClick(item)}}>
                                     <Item_element_img_div>
                                         <Item_element_img src={item?.image}/>
