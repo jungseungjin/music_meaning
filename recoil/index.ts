@@ -11,7 +11,7 @@ interface Item {
 }
 interface Search{
     search:string;
-    search_result:Array<object>;
+    search_result:Array<Item>;
     search_mode:boolean;
 }
 interface Items{
