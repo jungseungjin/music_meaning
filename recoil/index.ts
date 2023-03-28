@@ -1,13 +1,22 @@
 import {atom} from "recoil"
 
+interface Item {
+    _id:string;
+    singer : string;
+    song:string;
+    count:number;
+    image:string;
+    lyrics:Array<string>;
+    meaning:string;
+}
 interface Search{
     search:string;
     search_result:Array<object>;
     search_mode:boolean;
 }
-interface Item{
-    recently:Array<object>;
-    popular:Array<object>;
+interface Items{
+    recently:Array<Item>;
+    popular:Array<Item>;
 }
 export const searchState = atom<Search>({
     key:"searchState",
@@ -18,7 +27,7 @@ export const searchState = atom<Search>({
     }
 })
 
-export const itemState = atom<Item>({
+export const itemState = atom<Items>({
     key:"itemState",
     default:{
         recently:[],

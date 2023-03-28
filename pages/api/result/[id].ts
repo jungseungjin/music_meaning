@@ -8,10 +8,18 @@ const configuration = new Configuration({
     organization: process.env.OPENAI_ORGANIZATION_ID,
     apiKey: process.env.OPENAI_KEY,
 });
-
+interface Result{
+  _id:string;
+  singer : string;
+  song:string;
+  count:number;
+  image:string;
+  lyrics:Array<string>;
+  meaning:string;
+}
 const openai = new OpenAIApi(configuration);
 // const response = await openai.listEngines();
-const request_meaning = async(result:object,lyrics:Array<string>) => {
+const request_meaning = async(result:any,lyrics:Array<string>) => {
   try{
     //가사의미 묻기
     const meaning = await axios(
@@ -40,7 +48,7 @@ const request_meaning = async(result:object,lyrics:Array<string>) => {
 }
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   try{
     if(req.method === "GET"){
@@ -73,9 +81,9 @@ export default async function handler(
                 }
             })
             if(search.data){
-                let lyrics = []
+                let lyrics:Array<string> = []
                 if(search.data.sections.length > 0){
-                    search.data.sections.map(async(item)=>{
+                    search.data.sections.map(async(item:any)=>{
                         if(item.type === "LYRICS"){
                             //가사
                             lyrics = item.text

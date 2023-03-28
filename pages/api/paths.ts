@@ -5,13 +5,9 @@ import Song from "../../lib/model/song.model";
 // import clientPromise from "../../lib/db/mongodb";
 import dbConnect from "../../lib/db/dbConnect"
 
-type Data = {
-  name: string
-}
-
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   if(req.method === "GET"){
     try{

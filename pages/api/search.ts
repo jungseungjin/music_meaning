@@ -17,7 +17,7 @@ interface song {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   if(req.method === "GET"){
     try{
@@ -32,7 +32,7 @@ export default async function handler(
       })
       //나온 결과들을 db에 저장
       let songs:Array<song> = []
-      result.data.tracks.hits.map(async(item:song)=>{
+      result.data.tracks.hits.map(async(item:any)=>{
         try{
           const element = {
             singer:item.track.subtitle,

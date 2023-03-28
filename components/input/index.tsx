@@ -15,7 +15,7 @@ const Input = ({page=""}:{page:string}) => {
 
     const { loadingStart, loadingEnd, LoadingPortal } = useLoading();
     const [search, setSearchState] = useRecoilState(searchState);
-    const changeSearch = (e) => {
+    const changeSearch = (e:any) => {
         setSearchState({...search,search:e.target.value});
     };
     const onSubmitSearch = async(event:React.FormEvent<HTMLFormElement>)=>{
@@ -57,7 +57,7 @@ const Input = ({page=""}:{page:string}) => {
                     <Input2_container>
                         <Input2 autoComplete="off" name='search' type='search' placeholder="검색하기" value={search?.search} onChange={changeSearch}></Input2>
                         {search?.search?.length > 0 && (
-                            <Button_x_container onClick={()=>{setSearchState({search:""})}}>
+                            <Button_x_container onClick={()=>{setSearchState({...search,search:""})}}>
                                 <Button_x></Button_x>
                             </Button_x_container>
                         )}

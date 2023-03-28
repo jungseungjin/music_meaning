@@ -5,7 +5,7 @@ import dbConnect from "../../lib/db/dbConnect"
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   try{
     if(req.method === "GET"){

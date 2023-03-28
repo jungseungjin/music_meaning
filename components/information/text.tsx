@@ -37,13 +37,13 @@ color:${palette.black};
 font-weight:${fontweight["light"]};
 
 `
-const Text = ({title="",information=[]} : {title:string, information:string | Array<string>}) =>{
+const Text = ({title="",information=[]} : {title:string, information:any}) =>{
     return(
         <Container>
             <Title>{title}</Title>
             {title === "가사" && (<>
                 <Information>
-                    {information.map((item)=>{
+                    {information.map((item:any)=>{
                         return(
                             <p>{item}</p>
                         )

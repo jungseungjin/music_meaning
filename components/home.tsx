@@ -32,7 +32,6 @@ const Home:NextPage = ()=>{
                     color="#3d66ba"
                     height={80}
                     width={80}
-                    timeout={3000}
                 />
             </LoadingPortal>
         </>

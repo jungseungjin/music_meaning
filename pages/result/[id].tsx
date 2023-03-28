@@ -27,7 +27,7 @@ interface Props {
     },
     message:string
   }
- const Index :NextPage = ({item,message}:Props)=> {
+ const Index = ({item,message}:Props)=> {
   
   const { loadingStart, loadingEnd, LoadingPortal } = useLoading();
   useEffect(()=>{
@@ -62,7 +62,6 @@ interface Props {
             color="#3d66ba"
             height={80}
             width={80}
-            timeout={3000}
           />
       </LoadingPortal>
     </>
@@ -76,7 +75,7 @@ export async function getStaticPaths(){
     const res = await axios.get(`${API_URL}/api/paths`)
     const data = res.data;
     return {
-        paths : data.map((item)=>(
+        paths : data.map((item:any)=>(
             {params:{id:item.key.toString()}}
         )),
         // paths:[

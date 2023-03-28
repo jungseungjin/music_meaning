@@ -6,11 +6,20 @@ import fontSize from "@/styles/fontsize"
 import palette from "@/styles/palette";
 import fontweight from "@/styles/fontweight";
 import useLoading from "@/hooks/useLoading";
+interface Item {
+    _id:string;
+    singer : string;
+    song:string;
+    count:number;
+    image:string;
+    lyrics:Array<string>;
+    meaning:string;
+}
 
-const Item = ({title = "",items = []}:{title:string,items:Array<object>}) => {
+const Item = ({title = "",items = []}:{title:string,items:any}) => {
     const router = useRouter()
     const { loadingStart, loadingEnd, LoadingPortal } = useLoading();
-    const onClick = (item) => {
+    const onClick = (item:any) => {
         loadingStart()
         router.push(`/result/${item.key}`)
     }
@@ -19,16 +28,16 @@ const Item = ({title = "",items = []}:{title:string,items:Array<object>}) => {
             <Container>
                 <Title>{title}</Title>
                 <Item_container>
-                    {items.map((item,index)=>{
+                    {items.map(({item,index} : {item:any, index:number})=>{
                         return(
-                            <Item_element key={`${item._id}_${index}`}>
+                            <Item_element key={`${item?._id}_${index}`}>
                                 <div onClick={()=>{onClick(item)}}>
                                     <Item_element_img_div>
-                                        <Item_element_img src={item.image}/>
+                                        <Item_element_img src={item?.image}/>
                                     </Item_element_img_div>
                                     <Text_container>
-                                        <Singer>{item.singer}</Singer>
-                                        <Song>{item.song}</Song>
+                                        <Singer>{item?.singer}</Singer>
+                                        <Song>{item?.song}</Song>
                                     </Text_container>
                                 </div>
                             </Item_element>

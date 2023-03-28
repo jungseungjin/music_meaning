@@ -27,7 +27,7 @@ const Container = styled.div`
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
-        <Search></Search>
+        <Search page=""></Search>
         <Item title={search.search_mode === false ? "" : search.search_mode === true && search.search_result.length === 0 ? "검색결과가 없습니다." : "검색결과"} items={search.search_result}></Item>
       </Container>
       <LoadingPortal>
@@ -35,7 +35,6 @@ const Container = styled.div`
             color="#3d66ba"
             height={80}
             width={80}
-            timeout={3000}
           />
       </LoadingPortal>
     </>

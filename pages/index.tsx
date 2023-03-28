@@ -6,17 +6,18 @@ import axios from "axios"
 import { useRecoilState } from "recoil";
 import {itemState } from "../recoil/index" 
 
-interface item{
-  singer:string;
+interface Item {
+  _id:string;
+  singer : string;
   song:string;
-  image:string;
   count:number;
+  image:string;
   lyrics:Array<string>;
   meaning:string;
 }
 interface IProps{
-  result1 : Array<item>;
-  result2:Array<item>
+  result1 : Array<Item>;
+  result2 : Array<Item>;
 }
 
  const Index = ({result1, result2}:IProps)=> {
