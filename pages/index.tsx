@@ -24,10 +24,12 @@ interface IProps{
   const [items, setItems] = useRecoilState(itemState)
   
   useEffect(()=>{
-    setItems({
-      recently:result2,
-      popular:result1,
-    })
+    if(result1.length > 0 && result2.length > 0){
+      setItems({
+        recently:result2,
+        popular:result1,
+      })
+    }
   },[result1, result2])
   return (
     <>
