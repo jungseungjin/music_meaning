@@ -4,7 +4,7 @@ import { NextPage,GetServerSidePropsContext } from "next";
 import Home from "../components/home"
 import axios from "axios"
 import { useRecoilState } from "recoil";
-import {itemState } from "../recoil/index" 
+import {itemState, searchState } from "../recoil/index" 
 
 interface Item {
   _id:string;
@@ -22,6 +22,8 @@ interface IProps{
 
  const Index = ({result1, result2}:IProps)=> {
   const [items, setItems] = useRecoilState(itemState)
+  const [search, setSearch] = useRecoilState(searchState)
+  
   
   useEffect(()=>{
     if(result1.length > 0 && result2.length > 0){
@@ -31,6 +33,13 @@ interface IProps{
       })
     }
   },[result1, result2])
+  useEffect(()=>{
+    setSearch({
+      search:"",
+      search_result:[],
+      search_mode:false
+    })
+  },[])
   return (
     <>
       <Head>

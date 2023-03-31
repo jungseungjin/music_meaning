@@ -9,9 +9,6 @@ const configuration = new Configuration({
     apiKey: process.env.OPENAI_KEY,
 });
  
-export const config = {
-  runtime: "edge",
-};
  
 interface Result{
   _id:string;
@@ -37,7 +34,7 @@ const request_meaning = async(result:any,lyrics:Array<string>) => {
         },
         data:{
           "model": "gpt-3.5-turbo",
-          "messages": [{"role": "user", "content": `I"ll give you the lyrics to singer called ${result.singer} and song titled ${result.song}. Tell me the meaning of these lyrics in Korean so that an ordinary person in their 30s living in Korea can easily understand. And reply in Korean.  ${lyrics.join(" ")}`}]
+          "messages": [{"role": "user", "content": `I"ll give you the lyrics to singer called ${result.singer} and song titled ${result.song}. Tell me the meaning of these lyrics in Korean so that an ordinary person in their 30s living in Korea can easily understand. And reply in Korean. After you write everything down please comment what you think about this song.  ${lyrics.join(" ")}`}]
         }
       })
     //응답값 저장
@@ -58,7 +55,7 @@ export default async function handler(
   try{
     if(req.method === "GET"){
       await dbConnect()
-      let result = await Song.findOneAndUpdate({key:Number(req.query.id)},{$inc:{count:1}},{new:true})
+      let result = await Song.findOneAndUpdate({key:String(req.query.id)},{$inc:{count:1}},{new:true})
     
       if(result){
         //가사, 의미가 있으면 그대로 보내기
@@ -78,23 +75,23 @@ export default async function handler(
 
         //가사, 의미가 없으면 조회하고 만들어내기
         if(result.lyrics.length === 0){
-            const search = await axios.get(`${process.env.SHAZAM_URI}/songs/get-details`,{ 
-                params: {key: req.query.id},
-                headers: {
-                    "X-RapidAPI-Key": process.env.X_RapidAPI_Key,
-                    "X-RapidAPI-Host": process.env.X_RapidAPI_Host
-                }
+            const search = await axios.get(`${process.env.RAPID_API_SPOTIFY_URI}/track_lyrics/`,{
+              params:{
+                id:req.query.id
+              },
+              headers: {
+                  "X-RapidAPI-Key": process.env.RAPID_API_X_RapidAPI_Key,
+                  "X-RapidAPI-Host": process.env.RAPID_API_X_RapidAPI_Host
+              }
             })
             if(search.data){
                 let lyrics:Array<string> = []
-                if(search.data.sections.length > 0){
-                    search.data.sections.map(async(item:any)=>{
-                        if(item.type === "LYRICS"){
-                            //가사
-                            lyrics = item.text
-                            result = await Song.findOneAndUpdate({_id:result._id},{$set:{lyrics:lyrics}},{new:true})
-                        }
+                if(search.data.lyrics){
+                    search.data.lyrics.lines.map(async(item:any)=>{
+                      lyrics.push(`${item.words}`)
+                      lyrics.push(" ")
                     })
+                    result = await Song.findOneAndUpdate({_id:result._id},{$set:{lyrics:lyrics}},{new:true})
                 }
                 if(lyrics.length > 0){
                   result = await request_meaning(result,lyrics)

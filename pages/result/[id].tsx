@@ -37,7 +37,7 @@ interface Props {
     <>
       <Head>
         <title>{item?.singer} - {item?.song}</title>
-        <meta name="description" content={item?.lyrics.join(" ")} />
+        <meta name="description" content={item?.lyrics.join("")} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -45,13 +45,13 @@ interface Props {
         <Navigation_back></Navigation_back>
         {message && (
           <>
-            <Singer singer={item?.singer} song={item?.song}></Singer>
+            <Singer  singer={item?.singer} song={item?.song} image={item?.image}></Singer>
             <Text title={message} information={""}></Text>
           </>
         )}
         {!message && (
           <>      
-            <Singer singer={item?.singer} song={item?.song}></Singer>
+            <Singer singer={item?.singer} song={item?.song} image={item?.image}></Singer>
             <Text title={"가사"} information={item?.lyrics}></Text>
             <Text title={"의미"} information={item?.meaning}></Text>
           </>

@@ -7,7 +7,7 @@ const SongSchema = new Schema({
         type:String
     },
     key:{//키값
-        type:Number,
+        type:String,
         unique:true
     },
     image:{//앨범이미지
