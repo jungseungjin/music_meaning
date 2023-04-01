@@ -149,8 +149,10 @@ export async function getServerSideProps(context:GetServerSidePropsContext){
   })
   const data = res.data.result;
   const message = res.data.message || null;
-  const vote = res.data.result.vote[userIp] || "";
-  
+  let vote = "";
+  if(res.data.result.vote){
+    vote = res.data.result.vote[userIp] || "";
+  }
   return {
       props:{
           item:data,

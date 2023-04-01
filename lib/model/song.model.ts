@@ -24,7 +24,8 @@ const SongSchema = new Schema({
         type:String
     },
     vote : {//의미에 투표
-        type:Object
+        type:Object,
+        default:{}
     },
 });
 
