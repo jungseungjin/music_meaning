@@ -13,7 +13,7 @@ export default async function handler(
   if(req.method === "POST"){
     try{
       await dbConnect()
-      let userIp = requestIp.getClientIp(req);
+      let userIp:any = requestIp.getClientIp(req) || null;
       userIp = userIp.replace(/\./g,"");
       userIp = userIp.replace("::ffff:","");
       userIp = userIp.replace(/\:/g,"");

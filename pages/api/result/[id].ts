@@ -58,7 +58,7 @@ export default async function handler(
     if(req.method === "GET"){
       await dbConnect()
       let result = await Song.findOneAndUpdate({key:String(req.query.id)},{$inc:{count:1}},{new:true})
-      let userIp = requestIp.getClientIp(req);
+      let userIp:any = requestIp.getClientIp(req) || null;
       userIp = userIp.replace(/\./g,"");
       userIp = userIp.replace("::ffff:","");
       userIp = userIp.replace(/\:/g,"");

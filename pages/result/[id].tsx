@@ -20,7 +20,11 @@ const VoteContainer = styled.div`
   width:100%;
   justify-content:space-between;
 `
-const Vote = styled.div`
+interface StyledVoteProps {
+  vote : string;
+}
+
+const Vote = styled.div<StyledVoteProps>`
   display:flex;
   width:49%;
   justify-content:center;
@@ -32,7 +36,7 @@ const Vote = styled.div`
   height:50px;
   font-size:${fontsize.small};
 `
-const Vote2 = styled.div`
+const Vote2 = styled.div<StyledVoteProps>`
   display:flex;
   width:49%;
   justify-content:center;
@@ -65,8 +69,6 @@ interface Props {
   const { loadingStart, loadingEnd, LoadingPortal } = useLoading();
   const [voteValue, setVoteValue] = useState(vote)
   useEffect(()=>{
-    console.log(vote)
-    console.log(voteValue)
     loadingEnd()
   },[])
   const onClick = async(id:string,type:string) =>{
