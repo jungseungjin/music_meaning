@@ -22,7 +22,10 @@ const SongSchema = new Schema({
     },
     meaning:{//가사의 뜻
         type:String
-    }
+    },
+    vote : {//의미에 투표
+        type:Object
+    },
 });
 
 const Song = mongoose.models.Song ||  mongoose.model("Song", SongSchema);

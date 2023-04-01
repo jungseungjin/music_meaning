@@ -13,6 +13,8 @@ interface song {
   count:number;
   lyrics:Array<string>;
   meaning:string;
+  upvote:object;
+  downvote:object;
 }
 
 export default async function handler(
@@ -50,7 +52,9 @@ export default async function handler(
             image:item.data.albumOfTrack.coverArt.sources[0].url,
             count:0,
             lyrics:[],
-            meaning:""
+            meaning:"",
+            upvote:{},
+            downvote:{}
           }
           songs.push(element)
           const data = new Song(element)

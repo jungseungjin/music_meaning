@@ -4,6 +4,7 @@ import axios from "axios"
 import Song from "../../../lib/model/song.model";
 import dbConnect from "../../../lib/db/dbConnect"
 import { Configuration, OpenAIApi } from "openai";
+import requestIp from "request-ip";
 const configuration = new Configuration({
     organization: process.env.OPENAI_ORGANIZATION_ID,
     apiKey: process.env.OPENAI_KEY,
@@ -18,6 +19,7 @@ interface Result{
   image:string;
   lyrics:Array<string>;
   meaning:string;
+  vote:object;
 }
 const openai = new OpenAIApi(configuration);
 // const response = await openai.listEngines();
@@ -56,21 +58,27 @@ export default async function handler(
     if(req.method === "GET"){
       await dbConnect()
       let result = await Song.findOneAndUpdate({key:String(req.query.id)},{$inc:{count:1}},{new:true})
-    
+      let userIp = requestIp.getClientIp(req);
+      userIp = userIp.replace(/\./g,"");
+      userIp = userIp.replace("::ffff:","");
+      userIp = userIp.replace(/\:/g,"");
       if(result){
+        //투표했는지 여부 확인하기
+        let vote:string = result?.vote[userIp] || ""
+
         //가사, 의미가 있으면 그대로 보내기
         if(result.lyrics.length > 0 && result.meaning !== ""){
-          return res.json({result})
+          return res.json({result,vote})
         }
         //가사가 조회되지 않는 노래면 그대로 보내기
         if(result.lyrics.length === 1){
-          return res.json({result})
+          return res.json({result,vote})
         }
 
         //가사만 있으면 의미 조회하기
         if(result.lyrics.length > 0 && result.meaning === ""){
           result = await request_meaning(result,result.lyrics)
-          return res.json({result})
+          return res.json({result,vote})
         }
 
         //가사, 의미가 없으면 조회하고 만들어내기
@@ -95,20 +103,21 @@ export default async function handler(
                 }
                 if(lyrics.length > 0){
                   result = await request_meaning(result,lyrics)
-                  return res.json({result})
+                  return res.json({result,vote})
                 }else{
                     await Song.findOneAndUpdate({_id:result._id},{$set:{lyrics:["가사를 찾을 수 없습니다."]}})
                     console.log("가사를 찾을 수 없습니다.")
-                    return res.json({result,message:"가사를 찾을 수 없습니다."})
+                    return res.json({result,message:"가사를 찾을 수 없습니다.",vote})
                 }
             }
         }
       }else{
         console.log("????")
-        return res.json({message:"노래를 찾을 수 없습니다."})
+        return res.json({result:{},message:"노래를 찾을 수 없습니다."})
       }
     }
   }catch(err){
-    return res.json({})
+    console.log(err)
+    return res.json({result:{},message:"노래를 찾을 수 없습니다."})
   }
 }

@@ -1,4 +1,4 @@
-import React,{useEffect} from "react"
+import React,{useEffect, useState} from "react"
 import Head from "next/head"
 import { NextPage,GetServerSidePropsContext } from "next";
 import styled from "styled-components"
@@ -7,37 +7,93 @@ import Navigation_back from "../../components/navigation/index"
 import Singer from "../../components/information/singer"
 import Text from "../../components/information/text"
 import useLoading from "@/hooks/useLoading";
-import {Oval} from "react-loader-spinner"
+import {Oval} from "react-loader-spinner";
+import fontsize from "@/styles/fontsize";
+import palette from "@/styles/palette";
 const Container = styled.div`
     display:flex;
     flex-direction:column;
 `
-
+const VoteContainer = styled.div`
+  display:flex;
+  padding:20px;
+  width:100%;
+  justify-content:space-between;
+`
+const Vote = styled.div`
+  display:flex;
+  width:49%;
+  justify-content:center;
+  align-items:center;
+  border: ${(props) => props.vote === "upvote" ? `1px solid ${palette.blue}` : "1px solid black"};
+  color:${(props) => props.vote === "upvote" ? `${palette.blue}` : "black"};
+  box-shadow: ${(props) => props.vote === "upvote" ? `1px 1px 1px 1px ${palette.blue}` : "1px 1px 1px 1px gray"};
+  border-radius:10px;
+  height:50px;
+  font-size:${fontsize.small};
+`
+const Vote2 = styled.div`
+  display:flex;
+  width:49%;
+  justify-content:center;
+  align-items:center;
+  border: ${(props) => props.vote === "downvote" ? `1px solid ${palette.red}` : "1px solid black"};
+  color:${(props) => props.vote === "downvote" ? `${palette.red}` : "black"};
+  box-shadow: ${(props) => props.vote === "downvote" ? `1px 1px 1px 1px ${palette.red}` : "1px 1px 1px 1px gray"};
+  border-radius:10px;
+  height:50px;
+  font-size:${fontsize.small};
+`
 interface Props {
     item:{
       _id: string;
       singer: string;
       song: string;
-      key: number;
+      key: string;
       image: string;
       count: number;
       lyrics: Array<string>;
       meaning: string;
+      vote:object;
       __v: 0
     },
-    message:string
+    message:string,
+    vote:string
   }
- const Index = ({item,message}:Props)=> {
+ const Index = ({item,message,vote}:Props)=> {
   
   const { loadingStart, loadingEnd, LoadingPortal } = useLoading();
+  const [voteValue, setVoteValue] = useState(vote)
   useEffect(()=>{
+    console.log(vote)
+    console.log(voteValue)
     loadingEnd()
   },[])
+  const onClick = async(id:string,type:string) =>{
+    try{
+      const result = await axios({
+        method:"POST",
+        url:`${process.env.NEXT_PUBLIC_LOCALHOST}/api/vote`,
+        data:{
+          id:id,
+          type:type
+        }
+      })
+      if(result.data.success === true){
+        setVoteValue(type)
+      }else{
+        alert("잠시 후에 다시 시도해주세요.")
+      }
+    }catch(err){
+      console.log(err)
+      alert("잠시 후에 다시 시도해주세요.")
+    }
+  }
   return (
     <>
       <Head>
         <title>{item?.singer} - {item?.song}</title>
-        <meta name="description" content={item?.lyrics.join("")} />
+        <meta name="description" content={item?.lyrics?.join("")} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -56,6 +112,10 @@ interface Props {
             <Text title={"의미"} information={item?.meaning}></Text>
           </>
         )}
+        <VoteContainer>
+          <Vote vote={voteValue} onClick={()=>{voteValue === "upvote" ? "" : onClick(item?.key,"upvote")}}>의미에 공감해요😌</Vote>
+          <Vote2 vote={voteValue} onClick={()=>{voteValue === "downvote" ? "" : onClick(item?.key,"downvote")}}>의미가 이상해요😅</Vote2>
+        </VoteContainer>
       </Container>
       <LoadingPortal>
           <Oval
@@ -76,11 +136,14 @@ export async function getServerSideProps(context:GetServerSidePropsContext){
   const API_URL:string=process.env.LOCALHOST || ""
   const res = await axios.get(`${API_URL}/api/result/${id}`);
   const data = res.data.result;
-  const message = res.data.message || null
+  const message = res.data.message || null;
+  const vote = res.data.vote || "";
+  
   return {
       props:{
           item:data,
-          message
+          message,
+          vote
       }
   }
 }

@@ -26,5 +26,7 @@ export default {
     gray_807D7D:"#807D7D",
     dark_cyan: "#008489",
     green: "#008A05",
+    blue:"#819FF7",
+    red:"#F78181"
   };
   
