@@ -141,6 +141,7 @@ export async function getServerSideProps(context:GetServerSidePropsContext){
   userIp = userIp.replace(/\./g,"");
   userIp = userIp.replace("::ffff:","");
   userIp = userIp.replace(/\:/g,"");
+  console.log(userIp)
   const API_URL:string=process.env.LOCALHOST || ""
   const res = await axios({
     method:"GET",
