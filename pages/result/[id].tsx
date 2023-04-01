@@ -64,10 +64,9 @@ interface Props {
       __v: 0
     },
     message:string,
-    vote:string,
-    userIp:string
+    vote:string
   }
- const Index = ({item,message,vote,userIp}:Props)=> {
+ const Index = ({item,message,vote}:Props)=> {
   
   const { loadingStart, loadingEnd, LoadingPortal } = useLoading();
   const [voteValue, setVoteValue] = useState(vote)
@@ -97,7 +96,7 @@ interface Props {
   return (
     <>
       <Head>
-        <title>{item?.singer} - {item?.song} - {userIp}</title>
+        <title>{item?.singer} - {item?.song}</title>
         <meta name="description" content={item?.lyrics?.join("")} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -143,7 +142,6 @@ export async function getServerSideProps(context:GetServerSidePropsContext){
   userIp = userIp.replace(/\./g,"");
   userIp = userIp.replace("::ffff:","");
   userIp = userIp.replace(/\:/g,"");
-  console.log(userIp)
   const API_URL:string=process.env.LOCALHOST || ""
   const res = await axios({
     method:"GET",
@@ -157,7 +155,7 @@ export async function getServerSideProps(context:GetServerSidePropsContext){
       props:{
           item:data,
           message,
-          vote,userIp
+          vote
       }
   }
 }
