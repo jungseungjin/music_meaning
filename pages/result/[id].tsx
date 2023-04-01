@@ -145,9 +145,9 @@ export async function getServerSideProps(context:GetServerSidePropsContext){
   const API_URL:string=process.env.LOCALHOST || ""
   const res = await axios({
     method:"GET",
-    url:`${API_URL}/api/result/${id}`
+    url:`${API_URL}/api/result/${id}?ip=${userIp}`
   })
-
+  console.log(res.data)
   const data = res.data.result;
   const message = res.data.message || null;
   const vote = res.data.result.vote[userIp] || "";

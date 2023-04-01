@@ -57,11 +57,12 @@ export default async function handler(
   try{
     if(req.method === "GET"){
       await dbConnect()
+      console.log(req.query)
       let result = await Song.findOneAndUpdate({key:String(req.query.id)},{$inc:{count:1}},{new:true})
       if(result){
         //가사, 의미가 있으면 그대로 보내기
         if(result.lyrics.length > 0 && result.meaning !== ""){
-          return res.json({result})
+          return res.json({result,query:req.query})
         }
         //가사가 조회되지 않는 노래면 그대로 보내기
         if(result.lyrics.length === 1){
