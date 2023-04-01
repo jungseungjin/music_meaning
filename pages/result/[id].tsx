@@ -138,7 +138,8 @@ export async function getServerSideProps(context:GetServerSidePropsContext){
   if(!id){
       return { notFound: true };
   }
-  let userIp:any = context.req.socket.remoteAddress || null;
+  const forwarded = context.req.headers["x-forwarded-for"];
+  let userIp:any = typeof forwarded === "string" ? forwarded.split(/, /)[0] : context.req.socket.remoteAddress;
   userIp = userIp.replace(/\./g,"");
   userIp = userIp.replace("::ffff:","");
   userIp = userIp.replace(/\:/g,"");
