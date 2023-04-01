@@ -35,6 +35,7 @@ const Vote = styled.div<StyledVoteProps>`
   border-radius:10px;
   height:50px;
   font-size:${fontsize.small};
+  cursor:pointer;
 `
 const Vote2 = styled.div<StyledVoteProps>`
   display:flex;
@@ -47,6 +48,7 @@ const Vote2 = styled.div<StyledVoteProps>`
   border-radius:10px;
   height:50px;
   font-size:${fontsize.small};
+  cursor:pointer;
 `
 interface Props {
     item:{
@@ -135,11 +137,19 @@ export async function getServerSideProps(context:GetServerSidePropsContext){
   if(!id){
       return { notFound: true };
   }
+  let userIp:any = context.req.socket.remoteAddress || null;
+  userIp = userIp.replace(/\./g,"");
+  userIp = userIp.replace("::ffff:","");
+  userIp = userIp.replace(/\:/g,"");
   const API_URL:string=process.env.LOCALHOST || ""
-  const res = await axios.get(`${API_URL}/api/result/${id}`);
+  const res = await axios({
+    method:"GET",
+    url:`${API_URL}/api/result/${id}`
+  })
+
   const data = res.data.result;
   const message = res.data.message || null;
-  const vote = res.data.vote || "";
+  const vote = res.data.result.vote[userIp] || "";
   
   return {
       props:{
